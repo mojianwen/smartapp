@@ -13,15 +13,15 @@
         text-color="#bfcbd9"
         active-text-color="#409EFF"
         >
-          <template v-for="menu in menuList" :key="menu.path">
-            <el-sub-menu v-if="menu.children && menu.children.length" :index="menu.path">
+          <template v-for="menu in menuList" :key="menu.path || menu.meta?.title">
+            <el-sub-menu v-if="menu.children && menu.children.length" :index="menu.path || menu.meta?.title">
               <template #title>
                 <el-icon><component :is="menu.meta?.icon" /></el-icon>
                 <span>{{ menu.meta?.title }}</span>
               </template>
               <el-menu-item 
                 v-for="child in menu.children" 
-                :key="child.path" 
+                :key="child.path || child.meta?.title" 
                 :index="child.path"
               >
                 <el-icon><component :is="child.meta?.icon" /></el-icon>
@@ -93,33 +93,31 @@ const menuList = computed(() => {
     }
   }
   
-  const filterMenu = (menu) => {
-    if (menu.menuType === 'F') {
-      return null
-    }
-    
-    const result = {
-      path: menu.path || '',
-      meta: {
-        title: menu.menuName,
-        icon: menu.icon || ''
-      }
-    }
-    
-    if (menu.children && menu.children.length > 0) {
-      result.children = menu.children
-        .map(child => filterMenu(child))
-        .filter(child => child !== null)
-    }
-    
-    return result
+  // 直接使用后端返回的树形结构，不需要重新构建
+  const convertMenuTree = (menus) => {
+    return menus
+      .filter(menu => menu.menuType !== 'F') // 过滤按钮类型
+      .map(menu => {
+        const convertedMenu = {
+          path: menu.path || '',
+          meta: {
+            title: menu.menuName || menu.title || '未知菜单',
+            icon: menu.icon || menu.meta?.icon || ''
+          }
+        }
+        
+        // 如果有子菜单，递归转换
+        if (menu.children && menu.children.length > 0) {
+          convertedMenu.children = convertMenuTree(menu.children)
+        }
+        
+        return convertedMenu
+      })
   }
   
-  const filteredMenus = dynamicMenus
-    .map(filterMenu)
-    .filter(menu => menu !== null)
+  const convertedMenus = convertMenuTree(dynamicMenus)
   
-  return [dashboardMenu, ...filteredMenus]
+  return [dashboardMenu, ...convertedMenus]
 })
 
 const toggleCollapse = () => {
