@@ -99,6 +99,9 @@ import { reactive, onMounted } from 'vue'
 import { getUserList } from '@/api/user'
 import { getRoleList } from '@/api/role'
 import { getMenuList } from '@/api/menu'
+import { useUserStore } from '@/store/user'
+
+const userStore = useUserStore()
 
 const stats = reactive({
   userCount: 0,
@@ -108,6 +111,9 @@ const stats = reactive({
 
 onMounted(async () => {
   try {
+    // 重新获取用户信息以刷新菜单数据
+    await userStore.getUserInfo()
+
     const [users, roles, menus] = await Promise.all([
       getUserList(),
       getRoleList(),

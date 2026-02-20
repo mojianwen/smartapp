@@ -1,14 +1,16 @@
 package com.smartapp.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
 @TableName("sys_user_role")
 public class SysUserRole {
 
-    @TableId(type = IdType.NONE)
+    @TableField(value = "user_id")
     private Long userId;
 
+    @TableField(value = "role_id")
     private Long roleId;
 }

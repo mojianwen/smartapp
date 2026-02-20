@@ -22,7 +22,7 @@ mybatis-plus:
       logic-not-delete-value: 0
 
 jwt:
-  secret: smartapp-jwt-secret-key-2024-very-long-secret-key-for-security
+  secret: smartapp-jwt-secret-key-2024-very-long-secret-key-for-security-purposes-minimum-32-bytes-required-for-hmac-sha-256-algorithm-security-standards
   expiration: 86400000
 
 logging:

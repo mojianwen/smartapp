@@ -25,19 +25,19 @@ const routes = [
         meta: { title: '系统管理', icon: 'Setting' },
         children: [
           {
-            path: '/system/user',
+            path: 'user',
             name: 'User',
             component: () => import('@/views/system/user/index.vue'),
             meta: { title: '用户管理', icon: 'User' }
           },
           {
-            path: '/system/role',
+            path: 'role',
             name: 'Role',
             component: () => import('@/views/system/role/index.vue'),
             meta: { title: '角色管理', icon: 'UserFilled' }
           },
           {
-            path: '/system/menu',
+            path: 'menu',
             name: 'Menu',
             component: () => import('@/views/system/menu/index.vue'),
             meta: { title: '菜单管理', icon: 'Menu' }
@@ -53,7 +53,7 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   document.title = to.meta.title ? `${to.meta.title} - SmartApp` : 'SmartApp'
   
   const token = localStorage.getItem('token')
@@ -63,11 +63,12 @@ router.beforeEach((to, from, next) => {
     if (token) {
       const userStore = useUserStore()
       if (!userStore.userId) {
-        userStore.getUserInfo().then(() => {
+        try {
+          await userStore.getUserInfo()
           next()
-        }).catch(() => {
+        } catch (error) {
           next('/login')
-        })
+        }
       } else {
         next()
       }
