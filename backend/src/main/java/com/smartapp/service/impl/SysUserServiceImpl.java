@@ -11,7 +11,7 @@ import com.smartapp.mapper.SysUserMapper;
 import com.smartapp.mapper.SysUserRoleMapper;
 import com.smartapp.security.JwtUtils;
 import com.smartapp.service.SysUserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,14 +20,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class SysUserServiceImpl implements SysUserService {
 
-    private final SysUserMapper userMapper;
-    private final SysUserRoleMapper userRoleMapper;
-    private final SysMenuMapper menuMapper;
-    private final JwtUtils jwtUtils;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private SysUserMapper userMapper;
+    @Autowired
+    private SysUserRoleMapper userRoleMapper;
+    @Autowired
+    private SysMenuMapper menuMapper;
+    @Autowired
+    private JwtUtils jwtUtils;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public LoginVO login(LoginDTO dto) {

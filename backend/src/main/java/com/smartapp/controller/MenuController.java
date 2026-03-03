@@ -4,17 +4,17 @@ import com.smartapp.common.Result;
 import com.smartapp.dto.MenuTreeVO;
 import com.smartapp.entity.SysMenu;
 import com.smartapp.service.SysMenuService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/system/menu")
-@RequiredArgsConstructor
 public class MenuController {
 
-    private final SysMenuService menuService;
+    @Autowired
+    private SysMenuService menuService;
 
     @GetMapping("/tree")
     public Result<List<MenuTreeVO>> getMenuTree() {

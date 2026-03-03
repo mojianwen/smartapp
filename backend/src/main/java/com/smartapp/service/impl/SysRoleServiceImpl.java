@@ -6,7 +6,7 @@ import com.smartapp.entity.SysRoleMenu;
 import com.smartapp.mapper.SysRoleMapper;
 import com.smartapp.mapper.SysRoleMenuMapper;
 import com.smartapp.service.SysRoleService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,11 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class SysRoleServiceImpl implements SysRoleService {
 
-    private final SysRoleMapper roleMapper;
-    private final SysRoleMenuMapper roleMenuMapper;
+    @Autowired
+    private SysRoleMapper roleMapper;
+    @Autowired
+    private SysRoleMenuMapper roleMenuMapper;
 
     @Override
     public List<SysRole> list() {

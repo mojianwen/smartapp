@@ -9,7 +9,7 @@ import com.smartapp.security.JwtUtils;
 import com.smartapp.service.SysMenuService;
 import com.smartapp.service.SysUserService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +19,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
-    private final SysUserService userService;
-    private final SysMenuService menuService;
-    private final JwtUtils jwtUtils;
+    @Autowired
+    private SysUserService userService;
+    @Autowired
+    private SysMenuService menuService;
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @PostMapping("/login")
     public Result<LoginVO> login(@Valid @RequestBody LoginDTO dto) {

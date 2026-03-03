@@ -3,17 +3,17 @@ package com.smartapp.controller;
 import com.smartapp.common.Result;
 import com.smartapp.entity.SysRole;
 import com.smartapp.service.SysRoleService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/system/role")
-@RequiredArgsConstructor
 public class RoleController {
 
-    private final SysRoleService roleService;
+    @Autowired
+    private SysRoleService roleService;
 
     @GetMapping("/list")
     public Result<List<SysRole>> list() {

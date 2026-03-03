@@ -3,17 +3,17 @@ package com.smartapp.controller;
 import com.smartapp.common.Result;
 import com.smartapp.entity.SysUser;
 import com.smartapp.service.SysUserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/system/user")
-@RequiredArgsConstructor
 public class UserController {
 
-    private final SysUserService userService;
+    @Autowired
+    private SysUserService userService;
 
     @GetMapping("/list")
     public Result<List<SysUser>> list() {
